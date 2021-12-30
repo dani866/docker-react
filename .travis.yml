@@ -1,0 +1,9 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t daniele/docker-react -f Dockerfile.dev .
+script:
+  - docker run daniele/docker-react npm run test -- --coverage
+# -- --coverage is needed becuase npm run test won't exit by default and
+# travis CI will wait for its exit status code. This is a little work-around
