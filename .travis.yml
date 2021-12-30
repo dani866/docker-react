@@ -7,3 +7,18 @@ script:
   - docker run daniele/docker-react npm run test -- --coverage
 # -- --coverage is needed becuase npm run test won't exit by default and
 # travis CI will wait for its exit status code. This is a little work-around
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-2"
+  app: docker # name of the app created in the elasticbeanstalk
+  env: "Docker-env"
+  bucket_name: "elasticbeanstalk-us-west-2-32452345634" #S3 bucket name
+  bucket_path: "docker" # same name as app
+  on:
+    branch: master
+# We specify the user id and secret in travis CI as environment variables
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
+    
